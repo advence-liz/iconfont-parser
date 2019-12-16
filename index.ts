@@ -25,13 +25,14 @@ export const fetchXml = async (url): Promise<XmlData> => {
   try {
     const { data } = await axios.get<string>(url);
     const matches = String(data).match(/'<svg>(.+?)<\/svg>'/);
-
+    // console.log(matches[1])
     if (matches) {
       return new Promise<XmlData>((resolve, reject) => {
         parseString(`<svg>${matches[1]}</svg>`, { rootName: 'svg' },  (err: Error, result: XmlData) => {
           if (err) {
             reject(err);
           } else {
+            console.log(JSON.stringify(result))
             resolve(result);
           }
         });
